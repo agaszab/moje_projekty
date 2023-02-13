@@ -50,7 +50,7 @@ kurs=gold[:1]+ gold[2:5]+'.'+gold[6:8]
 
 # zapiszemy sobie kurs złota do pliku 'zloto.txt' wraz z datą i godziną
 plik = open('zloto.txt', 'a', encoding="utf-8")     # open z argumentem 'a' dopisuje do poprzedniego, gdyby było 'w' to usunełoby poprzednią zawartość i wpisało to co teraz itp
-plik.write(kurs+"|"+today)                          # zampsuje w pliku
+plik.write(kurs+";"+today)                          # zampsuje w pliku
 plik.write('\n')
 plik.close()
 
