@@ -2,7 +2,7 @@ import mysql.connector
 import requests
 import bs4
 
-def wstaw(kurs_pl, kurs_usd, data, godzina, mydb):
+def wstaw(kurs_pl, kurs_usd, mydb):
   sql=f"INSERT INTO kursy(kursy_pl, kursy_usd, data, godzina) VALUES ({str(kurs_pl)}, {str(kurs_usd)}, CURDATE(), CURTIME())"
   cursor = mydb.cursor()
   cursor.execute(sql)
@@ -11,10 +11,13 @@ def wstaw(kurs_pl, kurs_usd, data, godzina, mydb):
 def pokaz(sql):
   mycursor.execute(sql)
   myresult = mycursor.fetchall()
+  kursy=[]
   for x in myresult:
-    print(x)
+    kurs=[x[0],x[1],x[2],x[3]]
+    kursy.append(kurs)
+    print(str(x[0])+" USD, ",str(x[1])+" PL, -> ",x[2],x[3])
   print(myresult)
-
+  return kursy
 def pobiez():
   url = 'https://www.bankier.pl/inwestowanie/profile/quote.html?symbol=ZLOTO'
   try:
@@ -41,8 +44,8 @@ mydb = mysql.connector.connect(user='root', password='adminadmin', host='127.0.0
 mycursor = mydb.cursor()
 
 kurs=pobiez()
-# print(kurs)
-wstaw(kurs[1],kurs[0],'2023-02-23','10:59:11',mydb)
-pokaz("SELECT * FROM kursy")
+wstaw(kurs[1],kurs[0],mydb)
+list=pokaz("SELECT * FROM kursy")
+print(list)
 
-
+# STR_TO_DATE(data,'%d,%m,%Y')
